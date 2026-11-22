@@ -7,7 +7,7 @@ import streamlit as st
 from sqlalchemy import select, func
 
 from database.db import init_db, SessionLocal
-
+from database.seed_data import seed_database
 from database.models import (
     Employee,
     EmployeeAvailability,
@@ -49,6 +49,7 @@ st.set_page_config(
 )
 
 init_db()
+seed_database()
 
 st.title("📅 Smart Roster Management System")
 st.caption(
@@ -213,7 +214,7 @@ with col2:
 if st.button(
     "🚀 Generate Monthly Roster",
     type="primary",
-    use_container_width=True,
+    width="stretch",
 ):
     try:
         with st.spinner("Generating optimized roster..."):
@@ -274,7 +275,7 @@ if (
 
         st.dataframe(
             generated_df,
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -359,7 +360,7 @@ else:
 
         submit_leave = st.form_submit_button(
             "Submit Request",
-            use_container_width=True,
+            width="stretch",
         )
 
     if submit_leave:
@@ -438,7 +439,7 @@ else:
                         f"{request['employee_id']}_"
                         f"{request['date']}"
                     ),
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     try:
                         with SessionLocal() as session:
@@ -463,7 +464,7 @@ else:
                         f"{request['employee_id']}_"
                         f"{request['date']}"
                     ),
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     try:
                         with SessionLocal() as session:
@@ -519,7 +520,7 @@ if approved_rows:
 
     st.dataframe(
         approved_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -639,7 +640,7 @@ else:
 
     st.dataframe(
         roster_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -669,7 +670,7 @@ else:
 
     if st.button(
         "🔍 Validate Selected Roster",
-        use_container_width=True,
+        width="stretch",
         key=f"validate_roster_{selected_roster_id}",
     ):
         try:
@@ -738,7 +739,7 @@ else:
 
                 st.dataframe(
                     error_df,
-                    use_container_width=True,
+                    width="stretch",
                     hide_index=True,
                 )
 
@@ -763,7 +764,7 @@ else:
             with st.expander("⚠️ View Warnings"):
                 st.dataframe(
                     pd.DataFrame({"Warning": warnings}),
-                    use_container_width=True,
+                    width="stretch",
                     hide_index=True,
                 )
 
@@ -793,7 +794,7 @@ else:
             if st.button(
                 "✅ Approve Roster",
                 type="primary",
-                use_container_width=True,
+                width="stretch",
                 key=f"approve_roster_{selected_roster_id}",
             ):
                 change_roster_status(
@@ -804,7 +805,7 @@ else:
         with action2:
             if st.button(
                 "❌ Reject Roster",
-                use_container_width=True,
+                width="stretch",
                 key=f"reject_draft_{selected_roster_id}",
             ):
                 change_roster_status(
@@ -819,7 +820,7 @@ else:
             if st.button(
                 "📢 Publish Roster",
                 type="primary",
-                use_container_width=True,
+                width="stretch",
                 key=f"publish_roster_{selected_roster_id}",
             ):
                 change_roster_status(
@@ -830,7 +831,7 @@ else:
         with action2:
             if st.button(
                 "❌ Reject Approved Roster",
-                use_container_width=True,
+                width="stretch",
                 key=f"reject_approved_{selected_roster_id}",
             ):
                 change_roster_status(
@@ -1110,12 +1111,12 @@ else:
                 employee_workload.set_index(
                     "Employee Code"
                 )["Working Days"],
-                use_container_width=True,
+                width="stretch",
             )
 
             st.dataframe(
                 employee_workload,
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 
@@ -1143,7 +1144,7 @@ else:
                 daily_staffing.set_index(
                     "Date"
                 )["Employees Scheduled"],
-                use_container_width=True,
+                width="stretch",
             )
 
             # ================================================
@@ -1166,7 +1167,7 @@ else:
                 brand_distribution.set_index(
                     "Brand"
                 )["Assignments"],
-                use_container_width=True,
+                width="stretch",
             )
 
             st.caption(
@@ -1195,7 +1196,7 @@ else:
                 process_distribution.set_index(
                     "Process"
                 )["Assignments"],
-                use_container_width=True,
+                width="stretch",
             )
 
             # ================================================
@@ -1211,7 +1212,7 @@ else:
 
             st.dataframe(
                 brand_process_matrix,
-                use_container_width=True,
+                width="stretch",
             )
 
             st.caption(
@@ -1265,12 +1266,12 @@ else:
                 leave_summary.set_index(
                     "Status"
                 )["Approved Days"],
-                use_container_width=True,
+                width="stretch",
             )
 
             st.dataframe(
                 leave_df,
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 
@@ -1295,7 +1296,7 @@ else:
                 f"analytics_roster_{analytics_roster_id}.csv"
             ),
             mime="text/csv",
-            use_container_width=True,
+            width="stretch",
             key=f"analytics_export_{analytics_roster_id}",
         )
 
